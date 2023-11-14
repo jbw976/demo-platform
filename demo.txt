@@ -12,6 +12,7 @@ kubectl apply -f providerconfig.yaml
 # apply XRD/composition
 kubectl apply -f package/definition.yaml
 kubectl apply -f package/composition.yaml
+kubectl get xrd
 
 # create the claim to kick off sql database provisioning
 kubectl apply -f claim.yaml
