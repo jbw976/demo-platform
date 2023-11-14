@@ -1,0 +1,8 @@
+apiVersion: acme.com/v1
+kind: AcmeDatabase
+metadata:
+  name: acme-db-prod
+spec:
+  storageGB: 15
+  writeConnectionSecretToRef:
+    name: acme-db-prod-conn

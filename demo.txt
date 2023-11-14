@@ -1,0 +1,28 @@
+# initialize a new control plane and install crossplane
+kind create cluster
+helm install crossplane crossplane-stable/crossplane --namespace crossplane-system --create-namespace
+
+# install the GCP/SQL providers
+kubectl apply -f provider.yaml
+
+# first generate GCP creds file with https://docs.crossplane.io/latest/getting-started/provider-gcp/#generate-a-gcp-service-account-json-file
+kubectl create secret generic gcp-secret -n crossplane-system --from-file=creds=./gcp-credentials.json
+kubectl apply -f providerconfig.yaml
+
+# apply XRD/composition
+kubectl apply -f package/definition.yaml
+kubectl apply -f package/composition.yaml
+
+# create the claim to kick off sql database provisioning
+kubectl apply -f claim.yaml
+
+# watch progress of the provisioning
+crossplane beta trace acmedatabases acme-db-prod
+kubectl get managed
+
+
+
+### clean up
+kubectl delete -f claim.yaml
+k get managed
+kind delete cluster

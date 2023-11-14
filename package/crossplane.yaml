@@ -1,0 +1,10 @@
+apiVersion: meta.pkg.crossplane.io/v1
+kind: Configuration
+metadata:
+  name: faq-blog-1
+spec:
+  crossplane:
+    version: ">=v1.12.1"
+  dependsOn:
+    - provider: xpkg.upbound.io/upbound/provider-gcp-sql
+      version: "v0.33.1"
